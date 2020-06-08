@@ -33,7 +33,7 @@ export default ({ setJwtInfo }: LoginProps) => {
     if (result.ok) {
       const promiseData = await result.json();
       const { jwtToken } = promiseData;
-      const { "header": decoded } = jwtDecode<Token>(
+      const { sub, "header": decoded } = jwtDecode<Token>(
         jwtToken,
       );
       const jwtInfo: JwtInfo = {
@@ -41,9 +41,8 @@ export default ({ setJwtInfo }: LoginProps) => {
         email: "",
    };
       jwtInfo.id = decoded["id"];
-      jwtInfo.email = decoded["email"];
+      jwtInfo.email = sub;
       setJwtInfo(jwtInfo);
-      console.log("Decoded Value of the token" + decoded);
     } else {
       console.log("Access is not allowed");
     }
@@ -148,7 +147,6 @@ interface Token {
     sub: string;
     "header": {
       "id": string;
-      "email": string;
     };
   }
 

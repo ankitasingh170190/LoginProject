@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import Grid from "@material-ui/core/Grid";
-import JwtContext, { JwtInfo } from "../JwtContext";
+import JwtContext from "../JwtContext";
 
 export default () => {
   const { email } = useContext(JwtContext) || {};

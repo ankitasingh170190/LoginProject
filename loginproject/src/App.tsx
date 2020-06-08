@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import './App.css';
 import Login from './Login';
-import { JwtInfo } from './JwtContext';
+import JwtContext, { JwtInfo } from './JwtContext';
+import LandingPage from './LandingPage';
+import { Grid } from '@material-ui/core';
 
 function App() {
   const [jwtInfo, setJwtInfo] = useState<JwtInfo | null>(null);
+  console.log(jwtInfo);
   return (
-    <div className="App">
-       <Login setJwtInfo={setJwtInfo} ></Login>
-       <Screen/>
-    </div>
-  );
+    <Grid>
+       <JwtContext.Provider value={jwtInfo}>
+           <Login setJwtInfo={setJwtInfo} ></Login>
+           <LandingPage/>
+       </JwtContext.Provider>
+    </Grid>
+  )
 }
 
 export default App;
