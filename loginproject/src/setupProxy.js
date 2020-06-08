@@ -5,8 +5,7 @@ module.exports = app => {
   const proxy = createProxyMiddleware("/authenticationApi", {
     changeOrigin: true,
     autoRewrite: true,
-    target: "http://localhost:3000",
+    target: "http://localhost:portnumber",
   });
   app.use(proxy);
-  app.listen(3000);
 };

@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from "react";
+import React, { useState, MouseEvent, Dispatch, SetStateAction } from "react";
 // External Components
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
@@ -11,8 +11,9 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import jwtDecode from "jwt-decode";
 import { useForm } from "react-hook-form";
 import useStyles from "./useStyles";
+import { JwtInfo } from "../JwtContext";
 
-export default () => {
+export default ({ setJwtInfo }: LoginProps) => {
   const classes = useStyles();
   const { register, handleSubmit } = useForm<Credentials>();
 
@@ -32,10 +33,16 @@ export default () => {
     if (result.ok) {
       const promiseData = await result.json();
       const { jwtToken } = promiseData;
-      const { "header": decoded } = jwtDecode<Token>(
+      const { sub, "header": decoded } = jwtDecode<Token>(
         jwtToken,
       );
-      console.log("Decoded Value of the token" + decoded);
+      const jwtInfo: JwtInfo = {
+        id: "",
+        email: "",
+   };
+      jwtInfo.id = decoded["id"];
+      jwtInfo.email = sub;
+      setJwtInfo(jwtInfo);
     } else {
       console.log("Access is not allowed");
     }
@@ -139,12 +146,15 @@ export default () => {
 interface Token {
     sub: string;
     "header": {
-      "value1"?: string;
-      "value2": string;
+      "id": string;
     };
   }
 
 interface Credentials {
   email: string;
   password: string;
+}
+
+interface LoginProps {
+  setJwtInfo: Dispatch<SetStateAction<JwtInfo | null>>;
 }
