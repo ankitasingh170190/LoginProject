@@ -2,10 +2,10 @@
 const { createProxyMiddleware } = require("http-proxy-middleware");
 
 module.exports = app => {
-  const proxy = createProxyMiddleware("authenticationApi", {
+  const proxy = createProxyMiddleware("/authenticationApi", {
     changeOrigin: true,
     autoRewrite: true,
-    target: "http://localhost:8880",
+    target: "http://localhost:portnumber",
   });
   app.use(proxy);
 };

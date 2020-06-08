@@ -7,7 +7,6 @@ import { Grid } from '@material-ui/core';
 
 function App() {
   const [jwtInfo, setJwtInfo] = useState<JwtInfo | null>(null);
-  console.log(jwtInfo);
   return (
     <Grid>
        <JwtContext.Provider value={jwtInfo}>
